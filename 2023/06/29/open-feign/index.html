@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>open-feign | Mon's Blogs</title><meta name="author" content="Mon"><meta name="copyright" content="Mon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介xxx 常用注解xxx 使用本文将集成Open Feign、Nacos、Spring Cloud Loadbalancer来进行Open Feign的使用介绍。 将会启动两个服务，其中一个是作为服务提供者的订单服务，另一个则是通过Open Feign调用订单服务的消费者服务。 创建服务提供者通过Spring Boot框架启动一个Web服务，并注册到Nacos，这里给出Maven依赖： 1234">
+<meta property="og:type" content="article">
+<meta property="og:title" content="open-feign">
+<meta property="og:url" content="http://example.com/2023/06/29/open-feign/index.html">
+<meta property="og:site_name" content="Mon&#39;s Blogs">
+<meta property="og:description" content="简介xxx 常用注解xxx 使用本文将集成Open Feign、Nacos、Spring Cloud Loadbalancer来进行Open Feign的使用介绍。 将会启动两个服务，其中一个是作为服务提供者的订单服务，另一个则是通过Open Feign调用订单服务的消费者服务。 创建服务提供者通过Spring Boot框架启动一个Web服务，并注册到Nacos，这里给出Maven依赖： 1234">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/covers/8.jpg">
+<meta property="article:published_time" content="2023-06-29T09:26:37.000Z">
+<meta property="article:modified_time" content="2023-06-29T09:51:56.431Z">
+<meta property="article:author" content="Mon">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="远程调用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/covers/8.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/06/29/open-feign/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'open-feign',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-29 17:51:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/zhiqiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/covers/8.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Mon's Blogs"><span class="site-name">Mon's Blogs</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">open-feign</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-29T09:26:37.000Z" title="发表于 2023-06-29 17:26:37">2023-06-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-29T09:51:56.431Z" title="更新于 2023-06-29 17:51:56">2023-06-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Spring-Cloud/">Spring Cloud</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Spring-Cloud/Open-Feign/">Open Feign</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="open-feign"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>xxx</p>
+<h1 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h1><p>xxx</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>本文将集成Open Feign、Nacos、Spring Cloud Loadbalancer来进行Open Feign的使用介绍。</p>
+<p>将会启动两个服务，其中一个是作为服务提供者的订单服务，另一个则是通过Open Feign调用订单服务的消费者服务。</p>
+<h2 id="创建服务提供者"><a href="#创建服务提供者" class="headerlink" title="创建服务提供者"></a>创建服务提供者</h2><p>通过Spring Boot框架启动一个Web服务，并注册到Nacos，这里给出Maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>application.yml配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">order</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">server-addr:</span> <span class="string">Nacos_Addr</span></span><br><span class="line">        <span class="attr">username:</span> <span class="string">Nacos_Username</span></span><br><span class="line">        <span class="attr">password:</span> <span class="string">Nacos_Pwd</span></span><br><span class="line">        <span class="attr">namespace:</span> <span class="string">Nacos_Namespace</span></span><br><span class="line">        <span class="attr">group:</span> <span class="string">Nacos_Group</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8101</span></span><br></pre></td></tr></table></figure>
+
+<p>订单服务提供者提供一个简单的接口如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/order&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderController</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/get&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getOrderService</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;order&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建服务消费者"><a href="#创建服务消费者" class="headerlink" title="创建服务消费者"></a>创建服务消费者</h2><p>通过Spring Boot框架启动一个Web服务，并注册到Nacos，这里给出Maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-loadbalancer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>application.yml文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">open-feign-consumer</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">server-addr:</span> <span class="string">Nacos_Addr</span></span><br><span class="line">        <span class="attr">username:</span> <span class="string">Nacos_Username</span></span><br><span class="line">        <span class="attr">password:</span> <span class="string">Nacos_Pwd</span></span><br><span class="line">        <span class="attr">namespace:</span> <span class="string">Nacos_Namespace</span></span><br><span class="line">        <span class="attr">group:</span> <span class="string">Nacos_Group</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8101</span></span><br></pre></td></tr></table></figure>
+
+<p>此处请确保Nacos的namespace以及group与订单服务一致。</p>
+<p>启动类上加上@EnableFeignClients注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OpenfeignApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(OpenfeignApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Open Feign Client：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient(&quot;order&quot;)</span> <span class="comment">// 需要与订单服务的spring.application.name一致</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">OrderClient</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/order/get&quot;)</span>  <span class="comment">// 需要与服务提供者的接口请求路径一致</span></span><br><span class="line">    String <span class="title function_">getOrderService</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>消费者提供HTTP接口，该接口将通过Open Feign Client调用订单服务提供的接口进行响应：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderTestController</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> OrderClient orderClient;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/feign/order/test&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getOrderTest</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getOrderTest&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> orderClient.getOrderService();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动服务进行测试"><a href="#启动服务进行测试" class="headerlink" title="启动服务进行测试"></a>启动服务进行测试</h2><p>将两个服务都启动起来，可以在Nacos上观察到两个服务的注册情况：</p>
+<p><img src="/images/open-feign/image-20230629174503790.png" alt="image-20230629174503790"></p>
+<p>使用postman调用open-feign-consumer提供的HTTP接口，可以观察到来自order服务的响应：</p>
+<p><img src="/images/open-feign/image-20230629174712121.png" alt="image-20230629174712121"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Mon</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/29/open-feign/">http://example.com/2023/06/29/open-feign/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Mon's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><a class="post-meta__tags" href="/tags/%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8/">远程调用</a></div><div class="post_share"><div class="social-share" data-image="/images/covers/8.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechat_pay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechat_pay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/07/05/OAuth2-0/" title="OAuth2.0"><img class="cover" src="/images/covers/3.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">OAuth2.0</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/27/knife4j-4-1-0-problems/" title="knife4j-4.1.0-problems"><img class="cover" src="/images/covers/6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">knife4j-4.1.0-problems</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/zhiqiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Mon</div><div class="author-info__description">Mon's blogs</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hellobaozi"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的技术世界</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">常用注解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">3.1.</span> <span class="toc-text">创建服务提供者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.2.</span> <span class="toc-text">创建服务消费者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-number">3.3.</span> <span class="toc-text">启动服务进行测试</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/16/redis-data-structure/" title="redis-data-structure"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/16/redis-data-structure/" title="redis-data-structure">redis-data-structure</a><time datetime="2024-01-16T09:47:37.000Z" title="发表于 2024-01-16 17:47:37">2024-01-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/08/es-search-types/" title="es-search-types"><img src="/images/covers/2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es-search-types"/></a><div class="content"><a class="title" href="/2024/01/08/es-search-types/" title="es-search-types">es-search-types</a><time datetime="2024-01-08T05:55:59.000Z" title="发表于 2024-01-08 13:55:59">2024-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/03/test-code-library/" title="test-code-library"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/03/test-code-library/" title="test-code-library">test-code-library</a><time datetime="2024-01-03T08:56:11.000Z" title="发表于 2024-01-03 16:56:11">2024-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation"><img src="/images/covers/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="message_queue_comparation"/></a><div class="content"><a class="title" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation">message_queue_comparation</a><time datetime="2023-12-20T03:11:22.000Z" title="发表于 2023-12-20 11:11:22">2023-12-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/03/springboot-websocket/" title="springboot-websocket"><img src="/images/covers/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="springboot-websocket"/></a><div class="content"><a class="title" href="/2023/12/03/springboot-websocket/" title="springboot-websocket">springboot-websocket</a><time datetime="2023-12-02T16:31:37.000Z" title="发表于 2023-12-03 00:31:37">2023-12-03</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Mon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到我的博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

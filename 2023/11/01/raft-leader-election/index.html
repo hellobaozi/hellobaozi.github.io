@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>raft_leader_election | Mon's Blogs</title><meta name="author" content="Mon"><meta name="copyright" content="Mon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、基本概念角色在Raft算法中，服务器在任何时刻都只能处于以下三种角色之一：  领导者（Leader）：领导者负责处理所有客户端请求并负责日志复制，同一时刻最多只能有一个正常工作的领导者； 跟随者（Follower）：跟随者完全被动地处理请求，跟随者不主动发送RPC请求，只响应收到的RPC请求，服务器大多数时间都处于这种角色； 候选者（Candidate）：候选者是一种处于领导者和跟随者之间的中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="raft_leader_election">
+<meta property="og:url" content="http://example.com/2023/11/01/raft-leader-election/index.html">
+<meta property="og:site_name" content="Mon&#39;s Blogs">
+<meta property="og:description" content="一、基本概念角色在Raft算法中，服务器在任何时刻都只能处于以下三种角色之一：  领导者（Leader）：领导者负责处理所有客户端请求并负责日志复制，同一时刻最多只能有一个正常工作的领导者； 跟随者（Follower）：跟随者完全被动地处理请求，跟随者不主动发送RPC请求，只响应收到的RPC请求，服务器大多数时间都处于这种角色； 候选者（Candidate）：候选者是一种处于领导者和跟随者之间的中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/covers/4.jpg">
+<meta property="article:published_time" content="2023-11-01T06:36:24.000Z">
+<meta property="article:modified_time" content="2023-11-02T08:13:36.617Z">
+<meta property="article:author" content="Mon">
+<meta property="article:tag" content="分布式共识">
+<meta property="article:tag" content="领导选举">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/covers/4.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/11/01/raft-leader-election/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'raft_leader_election',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-02 16:13:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/zhiqiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/covers/5.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Mon's Blogs"><span class="site-name">Mon's Blogs</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">raft_leader_election</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-01T06:36:24.000Z" title="发表于 2023-11-01 14:36:24">2023-11-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-02T08:13:36.617Z" title="更新于 2023-11-02 16:13:36">2023-11-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/">分布式共识算法</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/Raft/">Raft</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/Raft/%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE/">领导选举</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="raft_leader_election"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h1><h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><p>在Raft算法中，服务器在任何时刻都只能处于以下三种角色之一：</p>
+<ul>
+<li>领导者（Leader）：领导者负责处理所有客户端请求并负责日志复制，同一时刻最多只能有一个正常工作的领导者；</li>
+<li>跟随者（Follower）：跟随者完全被动地处理请求，跟随者不主动发送RPC请求，只响应收到的RPC请求，服务器大多数时间都处于这种角色；</li>
+<li>候选者（Candidate）：候选者是一种处于领导者和跟随者之间的中间状态，这个状态是暂时的，候选者如果得到大多数节点的投票，将成为领导者，否则状态退回跟随者。</li>
+</ul>
+<h2 id="任期"><a href="#任期" class="headerlink" title="任期"></a>任期</h2><p>任期就是一个逻辑时间段，Raft算法将分布式系统中的时间划分为一个个不同的任期来解决时序问题。每个任期都有一个数字的任期号，任期号在初始启动时为0，单调递增切永不重复。</p>
+<p>一个正常的任期至少有一个领导者，任期通常被分为两部分：一个是任期开始时的选举过程，另一个是任期正常运行的部分。</p>
+<p><img src="/images/raft-leader-election/term.png"></p>
+<p>有些任期内没有选举出领导，这时会立即进入下一个任期，再次尝试选出一个领导者（如Term 1）。</p>
+<p>每台服务器需要维护一个currentTerm变量，表示服务器当前已知的最新任期号，变量currentTerm必须持久化存储，以便在服务器宕机重启时能够知道最新任期。</p>
+<p>任期对Raft算法十分重要，它能够帮助Raft识别过期的信息，Raft只使用最新任期的信息。</p>
+<h2 id="RPC通信"><a href="#RPC通信" class="headerlink" title="RPC通信"></a>RPC通信</h2><p>Raft算法中服务器之间的通信主要通过两个RPC调用实现，一个是用于选举领导者的<code>RequestVote RPC</code>，另一个是<code>AppendEntries RPC</code>，用于复制日志和发送心跳。</p>
+<h1 id="二、领导选举"><a href="#二、领导选举" class="headerlink" title="二、领导选举"></a>二、领导选举</h1><h2 id="选举流程"><a href="#选举流程" class="headerlink" title="选举流程"></a>选举流程</h2><p>Raft算法启动的第一步就是要选举出领导者。每个节点在启动时都是跟随者状态，跟随者只能被动地接收来自领导者或者候选者的RPC请求。</p>
+<p>领导者想要保持自己的领导地位，就必须周期性地向集群中的其它节点发送心跳包（即空的appendEntities消息）。</p>
+<p>如果一个跟随者在一个选举超时时间内没有收到任何任期更大的RPC请求，则该节点认为集群中没有领导者，于是它将开启新的一轮选举，该节点的状态流转如图：</p>
+<p><img src="/images/raft-leader-election/leader-election-8824483.png"></p>
+<p>对状态流程图说明：</p>
+<ol>
+<li>某跟随者节点失去领导者的心跳，角色转换为候选者；</li>
+<li>增加自己的当前任期，进入下一任期；</li>
+<li>先给自己投一票；</li>
+<li>并行地向系统中的其它节点发送requestVote消息索要选票，并不断进行重试直到收到各节点的响应；</li>
+<li>得到各节点响应后根据响应情况出现如下几种情况：<ol>
+<li>获得超过半数的选票，该节点成为领导者；</li>
+<li>收到来自领导者的appendEntities消息，说明此时系统中已经存在领导者了，于是它转变成跟随者；</li>
+<li>经过一个选举超时时间之后都未发生如上情况，于是节点将自己任期+1重新开始新的一轮投票。</li>
+</ol>
+</li>
+</ol>
+<h2 id="选举特性保证"><a href="#选举特性保证" class="headerlink" title="选举特性保证"></a>选举特性保证</h2><p>选举过程中需要保证共识算法的两个特性：安全性和活性。</p>
+<p>安全性是指一个任期内只会有一个领导者被选举出来；活性是指要确保系统最终能选出一个领导者。</p>
+<p>要保证安全性，需要做到：</p>
+<ul>
+<li>每个节点在同一任期只能投一次票，它将投给满足第一个条件的RequestVote请求，然后拒绝其他候选者的请求。这需要每个节点新增一个投票信息变量voteFor，表示当前任期内选票投给了哪个候选者，如果没有投票，则voteFor为空。投票信息voteFor也要持久化存储，以便节点宕机重启后恢复投票信息，否则节点重启后voteFor信息丢失，会导致一个节点投票给不同的候选者。</li>
+<li>只有获得超过半数节点的选票才能成为领导者，也就是说，两个不同的候选者无法在同一任期内都获得超过半数节点的选票。</li>
+</ul>
+<p>要保证活性，需要做到：</p>
+<ul>
+<li>在一个任期内无法选举出领导者时，需要重新发起投票，直到系统中出现领导者</li>
+</ul>
+<p>但是这样会出现问题：多个跟随者一直同时成为候选者并发起投票的话，这个分割选票的过程将会无限进行下去，出现活锁问题。</p>
+<p>为了解决活锁问题，我们可以选择节点随机选择超时时间的办法，让节点选择一个随机的选举超时时间，这样的话，即使上一轮多个节点同时开启选举，也会因为选举超时时间不一致而在不同的时间开启下一轮选举。采用这种办法之后，先开启下一轮的节点将被优先选为领导者。</p>
+<h2 id="领导选举限制"><a href="#领导选举限制" class="headerlink" title="领导选举限制"></a>领导选举限制</h2><p>上文中介绍了Raft算法的领导选举流程，那么有个问题：怎样的候选者，才能获得跟随者的选票呢？</p>
+<p>Raft算法通过如下操作来限制候选者成为领导者：</p>
+<ul>
+<li>候选者C在RequestVote消息中包含自己日志中的最后一条日志条目的索引（lastIndex）和任期（lastTerm）。</li>
+<li>收到投票请求的服务器V将和候选者C比较谁的日志更完整，如果服务器V的任期比候选者C新，或者任期一样，但是服务器V最后一条日志的索引比候选者C的大，那么V将拒绝投票给C。（任期比较的优先级更高）</li>
+</ul>
+<p>通过这个限制，就能保证选出来的领导者比集群中超过半数的节点拥有更完整的日志。</p>
+<h2 id="极端情况下领导选举的活性问题"><a href="#极端情况下领导选举的活性问题" class="headerlink" title="极端情况下领导选举的活性问题"></a>极端情况下领导选举的活性问题</h2><ul>
+<li>预投票</li>
+<li>领导主动下台</li>
+</ul>
+<h1 id="三、日志复制"><a href="#三、日志复制" class="headerlink" title="三、日志复制"></a>三、日志复制</h1><h2 id="日志格式与提交逻辑"><a href="#日志格式与提交逻辑" class="headerlink" title="日志格式与提交逻辑"></a>日志格式与提交逻辑</h2><p>我们先来了解一下Raft算法中的日志格式。每个节点存储自己的日志副本，日志中的每个日志条目包含如下内容：</p>
+<ul>
+<li>索引（Index）：索引表示该日志条目在整个日志中的位置；</li>
+<li>任期号：日志条目首次被领导者创建时的任期；</li>
+<li>命令：应用于状态机的命令。</li>
+</ul>
+<p>Raft算法通过索引和任期号唯一索引一条日志记录，而命令是我们所不关心的。</p>
+<p>日志必须持久化存储，一个节点必须先将日志条目安全地写到磁盘中，才能向系统中的其它节点发送请求或回复请求。</p>
+<p>如果一条日志条目别存储在超过半数以上的节点上，则可以认为该记录已提交，这是Raft算法非常重要的一个特性。如果一条记录已经被提交，这就意味着状态机可以安全地执行该记录，这条记录就不能再改变了。</p>
+<p><img src="/images/raft-leader-election/committed-log.png"></p>
+<p>如上图，第一条到第七条日志已经提交，可以安全应用到状态机了，而第八条记录尚未提交，不能应用到状态机。</p>
+<p>Raft算法通过AppendEntries消息来复制日志，和心跳共用一个RPC，不过AppendEntries消息用来发送心跳消息时不包含日志信息。</p>
+<h2 id="日志复制流程"><a href="#日志复制流程" class="headerlink" title="日志复制流程"></a>日志复制流程</h2><p>Raft算法正常运行时，日志复制流程为：</p>
+<ol>
+<li>客户端向领导者发送命令；</li>
+<li>领导者先将该命令追加到自己的日志中，确保日志持久化存储；</li>
+<li>领导者并行地向其他节点发送AppendEntries消息，等待响应‘</li>
+<li>如果收到超过半数节点的响应，则认为新的日志记录已提交。接着领导者将命令应用到自己的状态机，然后想客户端返回响应。此外，一旦领导者提交了一个日志记录，将在后续的AppendEntries消息中通过LeaderCommit参数通知跟随者，该参数代表领导者已提交的最大的日志索引，跟随者也将提交日志索引不大于LeaderCommit的日志，并将日志中的命令应用到自己的状态机。</li>
+<li>如果跟随者宕机或者响应超时，日志没有复制成功，那么领导者将反复尝试发送AppendEntries消息。</li>
+<li>性能优化：领导者不必等到所有跟随者响应，只需要超过半数的跟随者成功响应就可以回复客户端了。这样保证了即使系统中有个响应很慢的节点也不会拖垮整个系统的性能。</li>
+</ol>
+<h2 id="日志一致性检查"><a href="#日志一致性检查" class="headerlink" title="日志一致性检查"></a>日志一致性检查</h2><p>为了保证日志的一致性，Raft算法维持了以下两个特性：</p>
+<ul>
+<li>如果两个节点的日志在相同位置上的任期相同，则认为它们具有一样的命令，并且从日志开头到这个索引位置之间的日志也完全相同；</li>
+<li>如果给定的记录已经提交，那么前面的日志也已经提交，即Raft算法不允许出现日志空洞。</li>
+</ul>
+<p>为了维护这两个特性，Raft算法采取了如下做法：</p>
+<p>Raft算法通过AppendEntries消息来检测之前的一个日志条目，每个AppendEntries消息请求包含新日志条目之前一个日志条目的索引（prevLogIndex）和任期（prevLogTerm）。跟随者收到请求后，会检查自己最后一条日志的索引以及任期是否与请求消息中的prevLogIndex和prevLogTerm相匹配，如果匹配则接收该记录，否则拒绝。</p>
+<p>这个流程被称为“日志一致性检查”。</p>
+<p><img src="/images/raft-leader-election/log-check.png"></p>
+<p>需要注意的是，跟随者需要具备处理重复RPC请求的能力。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Mon</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/11/01/raft-leader-election/">http://example.com/2023/11/01/raft-leader-election/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Mon's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86/">分布式共识</a><a class="post-meta__tags" href="/tags/%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE/">领导选举</a></div><div class="post_share"><div class="social-share" data-image="/images/covers/4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechat_pay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechat_pay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/12/03/springboot-websocket/" title="springboot-websocket"><img class="cover" src="/images/covers/4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">springboot-websocket</div></div></a></div><div class="next-post pull-right"><a href="/2023/10/13/mongodb-cluster-deploy/" title="mongodb-cluster-deploy"><img class="cover" src="/images/covers/7.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">mongodb-cluster-deploy</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/zhiqiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Mon</div><div class="author-info__description">Mon's blogs</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hellobaozi"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的技术世界</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">一、基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%92%E8%89%B2"><span class="toc-number">1.1.</span> <span class="toc-text">角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E6%9C%9F"><span class="toc-number">1.2.</span> <span class="toc-text">任期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.</span> <span class="toc-text">RPC通信</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE"><span class="toc-number">2.</span> <span class="toc-text">二、领导选举</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E4%B8%BE%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">选举流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E4%B8%BE%E7%89%B9%E6%80%A7%E4%BF%9D%E8%AF%81"><span class="toc-number">2.2.</span> <span class="toc-text">选举特性保证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE%E9%99%90%E5%88%B6"><span class="toc-number">2.3.</span> <span class="toc-text">领导选举限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%81%E7%AB%AF%E6%83%85%E5%86%B5%E4%B8%8B%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE%E7%9A%84%E6%B4%BB%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-number">2.4.</span> <span class="toc-text">极端情况下领导选举的活性问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">三、日志复制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F%E4%B8%8E%E6%8F%90%E4%BA%A4%E9%80%BB%E8%BE%91"><span class="toc-number">3.1.</span> <span class="toc-text">日志格式与提交逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6%E6%B5%81%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">日志复制流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E6%9F%A5"><span class="toc-number">3.3.</span> <span class="toc-text">日志一致性检查</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/16/redis-data-structure/" title="redis-data-structure"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/16/redis-data-structure/" title="redis-data-structure">redis-data-structure</a><time datetime="2024-01-16T09:47:37.000Z" title="发表于 2024-01-16 17:47:37">2024-01-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/08/es-search-types/" title="es-search-types"><img src="/images/covers/2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es-search-types"/></a><div class="content"><a class="title" href="/2024/01/08/es-search-types/" title="es-search-types">es-search-types</a><time datetime="2024-01-08T05:55:59.000Z" title="发表于 2024-01-08 13:55:59">2024-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/03/test-code-library/" title="test-code-library"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/03/test-code-library/" title="test-code-library">test-code-library</a><time datetime="2024-01-03T08:56:11.000Z" title="发表于 2024-01-03 16:56:11">2024-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation"><img src="/images/covers/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="message_queue_comparation"/></a><div class="content"><a class="title" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation">message_queue_comparation</a><time datetime="2023-12-20T03:11:22.000Z" title="发表于 2023-12-20 11:11:22">2023-12-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/03/springboot-websocket/" title="springboot-websocket"><img src="/images/covers/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="springboot-websocket"/></a><div class="content"><a class="title" href="/2023/12/03/springboot-websocket/" title="springboot-websocket">springboot-websocket</a><time datetime="2023-12-02T16:31:37.000Z" title="发表于 2023-12-03 00:31:37">2023-12-03</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Mon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到我的博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

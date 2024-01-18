@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Mon's Blogs - 技术分享、共同进步</title><meta name="author" content="Mon"><meta name="copyright" content="Mon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Mon&#39;s blogs">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mon&#39;s Blogs">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Mon&#39;s Blogs">
+<meta property="og:description" content="Mon&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/zhiqiang.jpg">
+<meta property="article:author" content="Mon">
+<meta property="article:tag" content="技术,">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/zhiqiang.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Mon\'s Blogs',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-01-18 15:56:25'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/zhiqiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/images/zhiqiang.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Mon's Blogs"><span class="site-name">Mon's Blogs</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Mon's Blogs</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2024/01/16/redis-data-structure/" title="redis-data-structure"><div class="post-bg" style="background: /images/covers/xx"></div></a></div><div class="recent-post-info"><a class="article-title" href="/2024/01/16/redis-data-structure/" title="redis-data-structure">redis-data-structure</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-16T09:47:37.000Z" title="发表于 2024-01-16 17:47:37">2024-01-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Redis/">Redis</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/Redis/Basic/">Basic</a></span></div><div class="content">Redis中的数据结构Redis之所以这么快，除了因为它是基于内存的数据库之外，另一个重要的因素就是它底层的数据结构使得我们对数据的操作能得到高效地处理。
+接下来，我们就来了解一下Redis中一些高效、优雅的数据结构吧。
+Redis中的数据类型与数据结构对应关系需要注意的是，我们这里讨论的数据结构，并不是指“String”、“List”、“Hash”、“Set”、“Zset”这些Redis中的基本数据类型，而是“SDS”、“QuickList”、“Dict”、“ZipList”、“SkipList”、“ListPack”、“IntSet”等这些更加底层的被基本数据类型所使用的数据结构，下面放一张数据类型与数据结构对应关系图供参考：
+
+由上图可以知道，“ZipList”这个数据结构并未出现，这是因为随着Redis版本的迭代，它已经被性能更好的“ListPack”取代了。当然，这并不意味着“ZipList”就已经退出了历史舞台，至少“QuickList”还是基于它的。
+Redis底层数据结构接下来，就来聊一聊Redis底层的数据结构吧。
+SDS“SDS”的全称为“Simple Dynami ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/01/08/es-search-types/" title="es-search-types"><img class="post-bg" src="/images/covers/2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es-search-types"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/01/08/es-search-types/" title="es-search-types">es-search-types</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-08T05:55:59.000Z" title="发表于 2024-01-08 13:55:59">2024-01-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%90%9C%E7%B4%A2/">搜索</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%90%9C%E7%B4%A2/ES/">ES</a></span></div><div class="content">ES查询类型总结</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/01/03/test-code-library/" title="test-code-library"><div class="post-bg" style="background: /images/covers/xx"></div></a></div><div class="recent-post-info"><a class="article-title" href="/2024/01/03/test-code-library/" title="test-code-library">test-code-library</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-01-03T08:56:11.000Z" title="发表于 2024-01-03 16:56:11">2024-01-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81%E5%BA%93/">代码库</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81%E5%BA%93/Java/">Java</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81%E5%BA%93/Java/%E5%9B%9E%E5%A4%8D%E9%82%AE%E4%BB%B6/">回复邮件</a></span></div><div class="content"></div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation"><img class="post-bg" src="/images/covers/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="message_queue_comparation"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation">message_queue_comparation</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-12-20T03:11:22.000Z" title="发表于 2023-12-20 11:11:22">2023-12-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%AF%94%E5%AF%B9/">消息队列比对</a></span></div><div class="content">主流消息队列Rabbit MQ消息模型xxx
+优缺点xxx
+Rocket MQ消息模型xxx
+优缺点xxx
+Kafka消息模型xxx
+优缺点xxx
+Pulsar消息模型xxx
+优缺点xxx
+横向比对</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/12/03/springboot-websocket/" title="springboot-websocket"><img class="post-bg" src="/images/covers/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="springboot-websocket"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/12/03/springboot-websocket/" title="springboot-websocket">springboot-websocket</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-12-02T16:31:37.000Z" title="发表于 2023-12-03 00:31:37">2023-12-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">通信协议</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/Websocket/">Websocket</a></span></div><div class="content">SpringBoot中使用Websocket进行全双工通信本文基于SpringBoot的Web服务来使用Websocket进行全双工通信，即项目的基础是一个已经可以提供http请求的Web服务。
+引入依赖12345&lt;dependency&gt;  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;  &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;  &lt;version&gt;2.7.0&lt;/version&gt;&lt;/dependency&gt;
+
+配置配置消息处理器消息处理器负责处理来自客户端的活动，例如客户端连接、断开连接、发来消息等。
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354package xxx;import lombok.extern.slf4j.Slf4j; ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/01/raft-leader-election/" title="raft_leader_election"><img class="post-bg" src="/images/covers/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="raft_leader_election"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/01/raft-leader-election/" title="raft_leader_election">raft_leader_election</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-01T06:36:24.000Z" title="发表于 2023-11-01 14:36:24">2023-11-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/">分布式共识算法</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/Raft/">Raft</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/Raft/%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE/">领导选举</a></span></div><div class="content">一、基本概念角色在Raft算法中，服务器在任何时刻都只能处于以下三种角色之一：
+
+领导者（Leader）：领导者负责处理所有客户端请求并负责日志复制，同一时刻最多只能有一个正常工作的领导者；
+跟随者（Follower）：跟随者完全被动地处理请求，跟随者不主动发送RPC请求，只响应收到的RPC请求，服务器大多数时间都处于这种角色；
+候选者（Candidate）：候选者是一种处于领导者和跟随者之间的中间状态，这个状态是暂时的，候选者如果得到大多数节点的投票，将成为领导者，否则状态退回跟随者。
+
+任期任期就是一个逻辑时间段，Raft算法将分布式系统中的时间划分为一个个不同的任期来解决时序问题。每个任期都有一个数字的任期号，任期号在初始启动时为0，单调递增切永不重复。
+一个正常的任期至少有一个领导者，任期通常被分为两部分：一个是任期开始时的选举过程，另一个是任期正常运行的部分。
+
+有些任期内没有选举出领导，这时会立即进入下一个任期，再次尝试选出一个领导者（如Term 1）。
+每台服务器需要维护一个currentTerm变量，表示服务器当前已知的最新任期号，变量currentTerm必须持久化存 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/13/mongodb-cluster-deploy/" title="mongodb-cluster-deploy"><img class="post-bg" src="/images/covers/7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mongodb-cluster-deploy"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/13/mongodb-cluster-deploy/" title="mongodb-cluster-deploy">mongodb-cluster-deploy</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-13T08:03:22.000Z" title="发表于 2023-10-13 16:03:22">2023-10-13</time></span></div><div class="content">docker搭建mongodb集群一、准备工作1、拉取Mongodb镜像1docker pull mongo
+
+
+
+2、安装docker-compose工具
+使用apt安装
+
+1apt install docker-compose
+
+
+使用pip安装
+
+1pip install docker-compose
+
+3、创建相关文件夹1mkdir -p /home/mongo-cluster
+
+
+
+二、开始构建1、集群规划
+
+
+容器名称
+端口号
+目录
+角色
+
+
+
+mongo_router_100
+27017:27017
+-
+Router
+
+
+mongo_configsvc_101
+27101:27019
+&#x2F;home&#x2F;mongo-cluster&#x2F;config_servers&#x2F;101
+Config Server 1
+
+
+mongo_configsvc_102
+27102:27019
+&#x2F;home&#x2F;mongo-cluster&#x2F;config_servers&#x2F;102
+Config Server 2
+
+
+mongo_shard ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/11/mongodb-index-text-index/" title="mongodb-index-text-index"><img class="post-bg" src="/images/covers/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mongodb-index-text-index"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/11/mongodb-index-text-index/" title="mongodb-index-text-index">mongodb-index-text-index</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-11T05:13:48.000Z" title="发表于 2023-10-11 13:13:48">2023-10-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MongoDB/">MongoDB</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MongoDB/Index/">Index</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MongoDB/Index/Text-Index/">Text Index</a></span></div><div class="content">MongoDB Text Indexes在MongoDB中，Text索引支持对包含文本内容的字段进行搜索查询。Text索引可以提高对指定单词或者短语的搜索性能。
+一个Collection只能有一个Text索引，但是这个索引可以覆盖多个字段。
+创建Text索引为Text索引指定默认语言</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/08/28/distributed-transaction/" title="distributed_transaction"><img class="post-bg" src="/images/covers/7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="distributed_transaction"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/08/28/distributed-transaction/" title="distributed_transaction">distributed_transaction</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-28T02:17:47.000Z" title="发表于 2023-08-28 10:17:47">2023-08-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">分布式事务</a></span></div><div class="content">分布式事务什么是分布式事务什么是事务&#x2F;本地事务要清楚什么是分布式事务，首先需要了解什么是事务，或者说本地事务。
+我们说的事务通常指的是一组具备A（原子性）、C（一致性）、I（隔离性）、D（持久性）特性的操作：
+
+A（原子性）：事务中的操作要么全部成功，要么全部失败；
+C（一致性）：事务执行完毕之后，数据整体不变，举个经典的转账栗子：A账户中有400软妹币，B账户中也有400软妹币，现在A需要向B转帐200软妹币，此时存在两个操作：1、A账户扣减200软妹币，2、B账户增加200软妹币，而事务的一致性，将会保证事务结束之后，A账户中剩下200软妹币，B账户中此时有600软妹币，软妹币总和还是800，不会出现A账户扣减了200，而B账户未增加200的这种中间状态。
+I（隔离性）：多个事务并发执行时不会相互干扰，即一个事务内部的数据对于其它事务来说是隔离的，还是使用上述转账栗子来说的话，那就是扣减A账户200软妹币时，直到这个事务结束之前，其他事务都不知道这个操作。
+D（持久性）：指的是一个事务结束之后，这个事务对数据作出的修改是不会因为机器故障或系统故障等原因丢失的。
+
+什么是分 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/08/21/mysql-index/" title="mysql-index"><img class="post-bg" src="/images/covers/11.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql-index"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/08/21/mysql-index/" title="mysql-index">mysql-index</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-21T06:46:22.000Z" title="发表于 2023-08-21 14:46:22">2023-08-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/mysql/">mysql</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/mysql/index/">index</a></span></div><div class="content">表和索引结构SQL处理过程为SELECT语句创建理想的索引为表连接设计索引</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/zhiqiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Mon</div><div class="author-info__description">Mon's blogs</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hellobaozi"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的技术世界</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/16/redis-data-structure/" title="redis-data-structure"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/16/redis-data-structure/" title="redis-data-structure">redis-data-structure</a><time datetime="2024-01-16T09:47:37.000Z" title="发表于 2024-01-16 17:47:37">2024-01-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/08/es-search-types/" title="es-search-types"><img src="/images/covers/2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es-search-types"/></a><div class="content"><a class="title" href="/2024/01/08/es-search-types/" title="es-search-types">es-search-types</a><time datetime="2024-01-08T05:55:59.000Z" title="发表于 2024-01-08 13:55:59">2024-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/03/test-code-library/" title="test-code-library"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/03/test-code-library/" title="test-code-library">test-code-library</a><time datetime="2024-01-03T08:56:11.000Z" title="发表于 2024-01-03 16:56:11">2024-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation"><img src="/images/covers/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="message_queue_comparation"/></a><div class="content"><a class="title" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation">message_queue_comparation</a><time datetime="2023-12-20T03:11:22.000Z" title="发表于 2023-12-20 11:11:22">2023-12-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/03/springboot-websocket/" title="springboot-websocket"><img src="/images/covers/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="springboot-websocket"/></a><div class="content"><a class="title" href="/2023/12/03/springboot-websocket/" title="springboot-websocket">springboot-websocket</a><time datetime="2023-12-02T16:31:37.000Z" title="发表于 2023-12-03 00:31:37">2023-12-03</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Database/"><span class="card-category-list-name">Database</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Database/Mysql/"><span class="card-category-list-name">Mysql</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JAVA/"><span class="card-category-list-name">JAVA</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JAVA/JVM/"><span class="card-category-list-name">JVM</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MongoDB/"><span class="card-category-list-name">MongoDB</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MongoDB/Index/"><span class="card-category-list-name">Index</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MongoDB/Index/Text-Index/"><span class="card-category-list-name">Text Index</span><span class="card-category-list-count">1</span></a></li></ul></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Redis/"><span class="card-category-list-name">Redis</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/JVM/" style="font-size: 1.15em; color: rgb(180, 65, 192)">JVM</a><a href="/tags/JAVA/" style="font-size: 1.15em; color: rgb(110, 3, 107)">JAVA</a><a href="/tags/jwt/" style="font-size: 1.15em; color: rgb(132, 51, 65)">jwt</a><a href="/tags/OpenApi/" style="font-size: 1.15em; color: rgb(72, 138, 114)">OpenApi</a><a href="/tags/mysql/" style="font-size: 1.15em; color: rgb(142, 143, 36)">mysql</a><a href="/tags/architecture/" style="font-size: 1.15em; color: rgb(172, 128, 17)">architecture</a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BB%84%E4%BB%B6/" style="font-size: 1.3em; color: rgb(170, 126, 80)">微服务组件</a><a href="/tags/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/" style="font-size: 1.15em; color: rgb(82, 196, 30)">注册发现</a><a href="/tags/Nacos/" style="font-size: 1.15em; color: rgb(60, 142, 172)">Nacos</a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.15em; color: rgb(139, 4, 151)">微服务</a><a href="/tags/%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8/" style="font-size: 1.15em; color: rgb(147, 180, 113)">远程调用</a><a href="/tags/Mysql/" style="font-size: 1.45em; color: rgb(90, 115, 151)">Mysql</a><a href="/tags/MVCC/" style="font-size: 1.15em; color: rgb(168, 73, 88)">MVCC</a><a href="/tags/%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6/" style="font-size: 1.15em; color: rgb(49, 83, 170)">日志文件</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81/" style="font-size: 1.15em; color: rgb(1, 199, 180)">服务限流</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD/" style="font-size: 1.15em; color: rgb(38, 0, 51)">服务熔断</a><a href="/tags/Sentinel/" style="font-size: 1.15em; color: rgb(5, 4, 146)">Sentinel</a><a href="/tags/Spring-Cloud/" style="font-size: 1.15em; color: rgb(168, 59, 113)">Spring Cloud</a><a href="/tags/Api-Doc/" style="font-size: 1.15em; color: rgb(48, 9, 75)">Api Doc</a><a href="/tags/Test/" style="font-size: 1.15em; color: rgb(140, 177, 27)">Test</a><a href="/tags/ES/" style="font-size: 1.15em; color: rgb(144, 175, 72)">ES</a><a href="/tags/NoSQL/" style="font-size: 1.15em; color: rgb(180, 119, 177)">NoSQL</a><a href="/tags/MongoDB/" style="font-size: 1.15em; color: rgb(33, 106, 189)">MongoDB</a><a href="/tags/Index/" style="font-size: 1.15em; color: rgb(98, 31, 0)">Index</a><a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(67, 136, 53)">消息队列</a><a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" style="font-size: 1.15em; color: rgb(153, 56, 7)">分布式事务</a><a href="/tags/Redis/" style="font-size: 1.15em; color: rgb(35, 28, 133)">Redis</a><a href="/tags/DataStructure/" style="font-size: 1.15em; color: rgb(174, 48, 159)">DataStructure</a><a href="/tags/Websocket/" style="font-size: 1.15em; color: rgb(47, 26, 12)">Websocket</a><a href="/tags/%E5%85%A8%E5%8F%8C%E5%B7%A5%E9%80%9A%E4%BF%A1/" style="font-size: 1.15em; color: rgb(78, 13, 22)">全双工通信</a><a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86/" style="font-size: 1.15em; color: rgb(180, 155, 137)">分布式共识</a><a href="/tags/%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE/" style="font-size: 1.15em; color: rgb(57, 122, 117)">领导选举</a><a href="/tags/%E4%BB%A3%E7%A0%81%E5%BA%93/" style="font-size: 1.15em; color: rgb(64, 47, 1)">代码库</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/06/"><span class="card-archive-list-date">六月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">6</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">24</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-03-23T05:23:34.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-01-18T07:56:25.542Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Mon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到我的博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

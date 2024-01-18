@@ -1,0 +1,207 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>spring-cloud-gateway | Mon's Blogs</title><meta name="author" content="Mon"><meta name="copyright" content="Mon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介Spring Cloud Gateway是一个构建在Spring生态系统之上的API网关，旨在提供一种简单而有效的方法来将请求路由到API上，同时提供安全、监控、指标和弹性等特性。 主要概念Spring Cloud Gateway包含三个主要概念：  路由：网关的基本构建块，它由一个ID、一个目标URI、一个谓词集合以及一个过滤器集合定义。如果聚集谓词为真，则路由匹配； 谓词：这是一个Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring-cloud-gateway">
+<meta property="og:url" content="http://example.com/2023/06/25/spring-cloud-gateway/index.html">
+<meta property="og:site_name" content="Mon&#39;s Blogs">
+<meta property="og:description" content="简介Spring Cloud Gateway是一个构建在Spring生态系统之上的API网关，旨在提供一种简单而有效的方法来将请求路由到API上，同时提供安全、监控、指标和弹性等特性。 主要概念Spring Cloud Gateway包含三个主要概念：  路由：网关的基本构建块，它由一个ID、一个目标URI、一个谓词集合以及一个过滤器集合定义。如果聚集谓词为真，则路由匹配； 谓词：这是一个Java">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/covers/10.png">
+<meta property="article:published_time" content="2023-06-25T14:53:12.000Z">
+<meta property="article:modified_time" content="2023-08-21T03:12:39.727Z">
+<meta property="article:author" content="Mon">
+<meta property="article:tag" content="微服务组件">
+<meta property="article:tag" content="Spring Cloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/covers/10.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/06/25/spring-cloud-gateway/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'spring-cloud-gateway',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-21 11:12:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/zhiqiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/covers/2.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Mon's Blogs"><span class="site-name">Mon's Blogs</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">spring-cloud-gateway</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-25T14:53:12.000Z" title="发表于 2023-06-25 22:53:12">2023-06-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-21T03:12:39.727Z" title="更新于 2023-08-21 11:12:39">2023-08-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Spring-Cloud/">Spring Cloud</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Spring-Cloud/Gateway/">Gateway</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="spring-cloud-gateway"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Spring Cloud Gateway是一个构建在Spring生态系统之上的API网关，旨在提供一种简单而有效的方法来将请求路由到API上，同时提供安全、监控、指标和弹性等特性。</p>
+<h2 id="主要概念"><a href="#主要概念" class="headerlink" title="主要概念"></a>主要概念</h2><p>Spring Cloud Gateway包含三个主要概念：</p>
+<ul>
+<li><strong>路由</strong>：网关的基本构建块，它由一个ID、一个目标URI、一个谓词集合以及一个过滤器集合定义。如果聚集谓词为真，则路由匹配；</li>
+<li><strong>谓词</strong>：这是一个Java8功能谓词，输入类型为ServerWebExchange，这使得我们可以匹配到HTTP请求中的任何信息，比如请求头和请求参数；</li>
+<li><strong>过滤器</strong>：使用特定工厂构造出来的GatewayFilter实例，通过过滤器，我们可以在发往下游请求之前或者之后修改请求和响应的内容。</li>
+</ul>
+<h2 id="工作方式"><a href="#工作方式" class="headerlink" title="工作方式"></a>工作方式</h2><img src="/images/spring-cloud-gateway/image-20230625231558428.png" alt="image-20230625231558428" style="zoom:50%;" />
+
+<p>客户端向Spring Cloud Gateway发起请求，如果Gateway Handler Mapping确定请求与路由匹配，则将其发送到Gateway Web Handler。这个Handler将通过指定给这个请求的过滤器链来运行这个请求。图中过滤器被虚线分开的原因是过滤器的处理逻辑可以在代理请求被发送之前和之后执行。先执行所有过滤器的“pre”逻辑，之后再创建代理请求，最后再执行所有“post”逻辑。</p>
+<h1 id="谓词工厂"><a href="#谓词工厂" class="headerlink" title="谓词工厂"></a>谓词工厂</h1><p>Spring Cloud Gateway将路由作为Spring WebFlux HandlerMapping基础设施的一部分进行匹配。Spring Cloud Gateway包含许多内置的谓词工厂。这些谓词匹配HTTP请求中的不同属性。我们可以将多个谓词工厂通过And逻辑组合起来。</p>
+<h2 id="After"><a href="#After" class="headerlink" title="After"></a>After</h2><p>After路由谓词携带一个日期参数，类型为Java中的<code>ZonedDateTime</code>。这个谓词匹配在指定时间之后到来的请求。下面是该谓词的一个示例：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">after_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">After=2017-01-20T17:42:47.789-07:00[Asia/Shanghai]</span></span><br></pre></td></tr></table></figure>
+
+<p>该路由只会匹配2017-01-20 17:42:47之后到来的请求。</p>
+<h2 id="Before"><a href="#Before" class="headerlink" title="Before"></a>Before</h2><p>Before路由谓词与After一样，不同点在于该谓词匹配在指定时间之前到来的请求，示例如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">before_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Before=2017-01-20T17:42:47.789-07:00[Asia/Shanghai]</span></span><br></pre></td></tr></table></figure>
+
+<p>该路由只会匹配2017-01-20 17:42:47之前到来的请求。</p>
+<h2 id="Between"><a href="#Between" class="headerlink" title="Between"></a>Between</h2><p>Between路由谓词携带两个日期参数，该谓词将匹配在两个日期之间到来的请求，示例如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">between_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Between=2017-01-20T17:42:47.789-07:00[Asia/Shanghai],</span> <span class="number">2017-01-21T17:42:47.789-07:00</span>[<span class="string">Asia/Shanghai</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该路由只会匹配2017-01-20 17:42:47与2017-01-21 17:42:47之间到来的请求。</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>Cookie路由谓词携带两个参数，分别是cookie名称和cookie值正则表达式，两个参数由逗号隔开。这个谓词将会匹配到cookie名称与值符合指定参数的请求，示例如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">cookie_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Cookie=chocolate,</span> <span class="string">ch.p</span></span><br></pre></td></tr></table></figure>
+
+<p>该示例将匹配携带了名称为chocolate，值为ch.p的cookie的请求。</p>
+<h2 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h2><p>Header路由谓词与Cookie谓词大致相同，不同点在于Header谓词是匹配请求头中的参数，示例如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">header_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Header=X-Request-Id,</span> <span class="string">\d+</span></span><br></pre></td></tr></table></figure>
+
+<p>该示例将匹配携带了名称为X-Request-Id，值匹配\d+表达式的请求头的请求。</p>
+<h3 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h3><p>Host路由谓词携带一个参数</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>xxx</p>
+<h2 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h2><p>xxx</p>
+<h2 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h2><p>xxx</p>
+<h2 id="RemoteAddr"><a href="#RemoteAddr" class="headerlink" title="RemoteAddr"></a>RemoteAddr</h2><p>xxx</p>
+<h2 id="Weight"><a href="#Weight" class="headerlink" title="Weight"></a>Weight</h2><p>xxx</p>
+<h2 id="XForwarded"><a href="#XForwarded" class="headerlink" title="XForwarded"></a>XForwarded</h2><p>xxx</p>
+<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><h2 id="网关过滤器（Gateway-Filters）"><a href="#网关过滤器（Gateway-Filters）" class="headerlink" title="网关过滤器（Gateway Filters）"></a>网关过滤器（Gateway Filters）</h2><p>xxx</p>
+<h2 id="全局过滤器（Global-Filters）"><a href="#全局过滤器（Global-Filters）" class="headerlink" title="全局过滤器（Global Filters）"></a>全局过滤器（Global Filters）</h2><p>xxx</p>
+<h2 id="请求头过滤器（Http-Headers-Filters）"><a href="#请求头过滤器（Http-Headers-Filters）" class="headerlink" title="请求头过滤器（Http Headers Filters）"></a>请求头过滤器（Http Headers Filters）</h2><p>xxx</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Mon</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/25/spring-cloud-gateway/">http://example.com/2023/06/25/spring-cloud-gateway/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Mon's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BB%84%E4%BB%B6/">微服务组件</a><a class="post-meta__tags" href="/tags/Spring-Cloud/">Spring Cloud</a></div><div class="post_share"><div class="social-share" data-image="/images/covers/10.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechat_pay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechat_pay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/27/knife4j-4-1-0-problems/" title="knife4j-4.1.0-problems"><img class="cover" src="/images/covers/6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">knife4j-4.1.0-problems</div></div></a></div><div class="next-post pull-right"><a href="/2023/05/29/sentinel/" title="sentinel"><img class="cover" src="/images/covers/6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">sentinel</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/05/28/nacos/" title="nacos"><img class="cover" src="/images/covers/5.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-28</div><div class="title">nacos</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/zhiqiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Mon</div><div class="author-info__description">Mon's blogs</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hellobaozi"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的技术世界</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">主要概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">工作方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%93%E8%AF%8D%E5%B7%A5%E5%8E%82"><span class="toc-number">2.</span> <span class="toc-text">谓词工厂</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#After"><span class="toc-number">2.1.</span> <span class="toc-text">After</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Before"><span class="toc-number">2.2.</span> <span class="toc-text">Before</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Between"><span class="toc-number">2.3.</span> <span class="toc-text">Between</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-number">2.4.</span> <span class="toc-text">Cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Header"><span class="toc-number">2.5.</span> <span class="toc-text">Header</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Host"><span class="toc-number">2.5.1.</span> <span class="toc-text">Host</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method"><span class="toc-number">2.6.</span> <span class="toc-text">Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Path"><span class="toc-number">2.7.</span> <span class="toc-text">Path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Query"><span class="toc-number">2.8.</span> <span class="toc-text">Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RemoteAddr"><span class="toc-number">2.9.</span> <span class="toc-text">RemoteAddr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Weight"><span class="toc-number">2.10.</span> <span class="toc-text">Weight</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XForwarded"><span class="toc-number">2.11.</span> <span class="toc-text">XForwarded</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">过滤器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%88Gateway-Filters%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">网关过滤器（Gateway Filters）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%88Global-Filters%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">全局过滤器（Global Filters）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%B4%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%88Http-Headers-Filters%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">请求头过滤器（Http Headers Filters）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/16/redis-data-structure/" title="redis-data-structure"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/16/redis-data-structure/" title="redis-data-structure">redis-data-structure</a><time datetime="2024-01-16T09:47:37.000Z" title="发表于 2024-01-16 17:47:37">2024-01-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/08/es-search-types/" title="es-search-types"><img src="/images/covers/2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es-search-types"/></a><div class="content"><a class="title" href="/2024/01/08/es-search-types/" title="es-search-types">es-search-types</a><time datetime="2024-01-08T05:55:59.000Z" title="发表于 2024-01-08 13:55:59">2024-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/03/test-code-library/" title="test-code-library"><div style="background: /images/covers/xx"></div></a><div class="content"><a class="title" href="/2024/01/03/test-code-library/" title="test-code-library">test-code-library</a><time datetime="2024-01-03T08:56:11.000Z" title="发表于 2024-01-03 16:56:11">2024-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation"><img src="/images/covers/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="message_queue_comparation"/></a><div class="content"><a class="title" href="/2023/12/20/message-queue-comparation/" title="message_queue_comparation">message_queue_comparation</a><time datetime="2023-12-20T03:11:22.000Z" title="发表于 2023-12-20 11:11:22">2023-12-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/03/springboot-websocket/" title="springboot-websocket"><img src="/images/covers/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="springboot-websocket"/></a><div class="content"><a class="title" href="/2023/12/03/springboot-websocket/" title="springboot-websocket">springboot-websocket</a><time datetime="2023-12-02T16:31:37.000Z" title="发表于 2023-12-03 00:31:37">2023-12-03</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Mon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到我的博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
